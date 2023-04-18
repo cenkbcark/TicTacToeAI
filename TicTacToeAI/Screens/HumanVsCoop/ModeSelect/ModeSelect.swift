@@ -10,7 +10,7 @@ import SwiftUI
 struct ModeSelect: View {
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.blue, .red]), startPoint: .leading, endPoint: .trailing)
+            Color.black
                 .ignoresSafeArea(.all)
             VStack(spacing: 30) {
                 NavigationLink {

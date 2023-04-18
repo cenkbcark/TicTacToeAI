@@ -9,7 +9,9 @@ import SwiftUI
 
 struct GameSquareView: View {
     var proxy: GeometryProxy
-    
+    var i: Int
+    var fireColor: [Color] = [.yellow, .yellow, .red, .red ]
+    var waterColor: [Color] = [.blue, .blue, .white ]
     var body: some View {
         Circle()
 //            .foregroundColor(Color("circleBG"))
@@ -20,6 +22,17 @@ struct GameSquareView: View {
 //                LinearGradient(gradient: Gradient(colors: [.red , .blue]), startPoint: .leading, endPoint: .trailing)
 //            )
 //            .cornerRadius((proxy.size.height / 3 - 15) / 2)
-            .overlay(Capsule().stroke(LinearGradient(gradient: Gradient(colors: [.red , .blue]), startPoint: .leading, endPoint: .trailing),lineWidth: 5))
+            .overlay(Capsule().stroke(LinearGradient(gradient: Gradient(colors: determineBackgroundColor(i: i)),
+                                                     startPoint: .leading,
+                                                     endPoint: .trailing),
+                                                     lineWidth: 5))
+    }
+    
+    func determineBackgroundColor(i: Int) -> [Color] {
+        if i % 2 == 0 {
+            return fireColor
+        }else {
+            return waterColor
+        }
     }
 }

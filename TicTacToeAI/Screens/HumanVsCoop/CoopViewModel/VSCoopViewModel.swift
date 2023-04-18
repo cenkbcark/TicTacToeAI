@@ -43,7 +43,7 @@ final class VSCoopViewModel: ObservableObject {
         //check for win condition or draw
         if checkWinCondition(for: .human, in: moves) {
             alertItem = VSCoopAlertContext.humanWin
-            humanScore += 1
+            self.humanScore += 1
             return
         }
         
@@ -61,7 +61,7 @@ final class VSCoopViewModel: ObservableObject {
             
             if checkWinCondition(for: .computer, in: moves) {
                 alertItem = VSCoopAlertContext.computerWin
-                computerScore += 1
+                self.computerScore += 1
                 return
             }
             if checkForDraw(in: moves) {
@@ -91,7 +91,7 @@ final class VSCoopViewModel: ObservableObject {
                 }
             }
         }
-        if mode == "MEDIUM" || mode == "HARD" {
+        if mode == "MEDIUM" || mode == "HARD" {
             //If I cant win, block
             let humanMoves = moves.compactMap({$0}).filter({$0.player == .human}) // clear the nill
             let humanPosition = Set(humanMoves.map({$0.boardIndex}))

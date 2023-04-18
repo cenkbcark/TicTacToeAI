@@ -13,7 +13,7 @@ struct PPView: View {
 
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.blue, .red]), startPoint: .leading, endPoint: .trailing)
+            Color.black
                 .ignoresSafeArea(.all)
             GeometryReader { geomerty in
                 VStack {
@@ -21,18 +21,16 @@ struct PPView: View {
                         GradientTitleTextView(title: "SCORE")
                             .padding()
                         HStack {
-                            ScoreView(title: "FIRE: \(viewModel.player1Score)")
+                            FireScoreView(title: $viewModel.player1Score, player: "FIRE")
                             Spacer()
-                            ScoreView(title: "WATER: \(viewModel.player2Score)")
+                            WaterScoreView(title: $viewModel.player2Score, player: "WATER")
                         }
-//                        GradientSubTitleTextView(title: "YOUR TURN\n\(viewModel.firstPlayerTurn ? "FIRE":"WATER" )")
-//                            .padding(.top)
                     }
                     Spacer()
-                    LazyVGrid(columns: viewModel.columns, spacing: 5) {
+                    LazyVGrid(columns: viewModel.columns, spacing: 10) {
                         ForEach(0..<9) { i in
                             ZStack {
-                                GameSquareView(proxy: geomerty)
+                                GameSquareView(proxy: geomerty, i: i)
                                 PlayerIndicator(systemImageName: viewModel.moves[i]?.indicator ?? "")
                             }.onTapGesture {
                                 viewModel.processPlayerMove(for: i, firstPlayerTurn: viewModel.firstPlayerTurn)
@@ -59,18 +57,33 @@ struct PPView_Previews: PreviewProvider {
     }
 }
 
-struct ScoreView: View {
-    
-    @State var title: String
+struct FireScoreView: View {
+    @Binding var title: Int
+    @State var player: String
     var body: some View {
-        Text(title)
-            .frame(width: 150, height: 75)
-            .foregroundColor(Color("indicatorFC"))
-            .font(.system(size: 15, weight: .semibold, design: .monospaced))
-            .foregroundColor(.white)
-            .background(.black.opacity(0.5))
-            .cornerRadius(50)
-            .overlay(Capsule().stroke(LinearGradient(gradient: Gradient(colors: [.red , .blue]), startPoint: .leading, endPoint: .trailing),lineWidth: 5))
+            Text("\(player): \(title)")
+                .frame(width: 150, height: 75)
+                .foregroundColor(Color("indicatorFC"))
+                .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                .foregroundColor(.white)
+                .background(.black.opacity(0.5))
+                .cornerRadius(50)
+                .overlay(Capsule().stroke(LinearGradient(gradient: Gradient(colors: [.yellow, .yellow, .red, .red ]), startPoint: .leading, endPoint: .trailing),lineWidth: 5))
+    }
+}
+
+struct WaterScoreView: View {
+    @Binding var title: Int
+    @State var player: String
+    var body: some View {
+            Text("\(player): \(title)")
+                .frame(width: 150, height: 75)
+                .foregroundColor(Color("indicatorFC"))
+                .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                .foregroundColor(.white)
+                .background(.black.opacity(0.5))
+                .cornerRadius(50)
+                .overlay(Capsule().stroke(LinearGradient(gradient: Gradient(colors: [.blue, .blue, .white ]), startPoint: .leading, endPoint: .trailing),lineWidth: 5))
     }
 }
 struct GradientSubTitleTextView: View {

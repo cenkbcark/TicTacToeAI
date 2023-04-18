@@ -12,12 +12,16 @@ struct HomeView: View {
         
         NavigationView {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [.blue, .red]), startPoint: .leading, endPoint: .trailing)
+                Color(.black)
                     .ignoresSafeArea(.all)
                 VStack(spacing: 30){
                     Spacer()
                     GradientTitleTextView(title: "WELCOME")
-                    GradientTitleTextView(title: "FIRE AND WATER")
+                    HStack {
+                        FireTitleTextView(title: "FIRE")
+                        Spacer()
+                        WaterTitleTextView(title: "WATER")
+                    }.frame(width: UIScreen.main.bounds.width - 120)
                     HStack {
                         LottieView(lottieFile: "fire")
                             .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.height / 3)
@@ -72,9 +76,55 @@ struct GradientTitleTextView: View {
             .multilineTextAlignment(.center)
             .overlay {
                 LinearGradient(
-                    colors: [.red,.white, .blue],
-                    startPoint: .leading,
+                    colors: [.red, .blue, ],
+                    startPoint: .bottom,
                     endPoint: .trailing
+                )
+                .mask(
+                    Text(title)
+                        .font(.system(size: 40, weight: .semibold, design: .monospaced))
+                        .multilineTextAlignment(.center)
+                )
+            }
+    }
+}
+
+struct FireTitleTextView: View {
+    
+    @State var title: String
+    
+    var body: some View {
+        Text(title)
+            .font(.system(size: 40, weight: .semibold, design: .monospaced))
+            .multilineTextAlignment(.center)
+            .overlay {
+                LinearGradient(
+                    colors: [.yellow, .yellow, .red, .red ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .mask(
+                    Text(title)
+                        .font(.system(size: 40, weight: .semibold, design: .monospaced))
+                        .multilineTextAlignment(.center)
+                )
+            }
+    }
+}
+
+struct WaterTitleTextView: View {
+    
+    @State var title: String
+    
+    var body: some View {
+        Text(title)
+            .font(.system(size: 40, weight: .semibold, design: .monospaced))
+            .multilineTextAlignment(.center)
+            .overlay {
+                LinearGradient(
+                    colors: [.blue, .blue, .white ],
+                    startPoint: .bottom,
+                    endPoint: .top
                 )
                 .mask(
                     Text(title)

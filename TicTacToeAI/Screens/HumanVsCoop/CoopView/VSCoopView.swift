@@ -14,23 +14,23 @@ struct VSCoopView: View {
     @Binding var mode: String
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [.blue, .red]), startPoint: .leading, endPoint: .trailing)
+            Color.black
                 .ignoresSafeArea(.all)
             GeometryReader { geomerty in
                 VStack {
                     VStack(spacing: 10){
                         GradientTitleTextView(title: "SCORE")
                         HStack {
-                            ScoreView(title:"YOU: \(viewModel.humanScore)")
+                            FireScoreView(title: $viewModel.humanScore, player: "YOU: ")
                             Spacer()
-                            ScoreView(title: "COOP: \(viewModel.computerScore)")
+                            WaterScoreView(title: $viewModel.computerScore,player: "COOP: ")
                         }
                     }
                     Spacer()
                     LazyVGrid(columns: viewModel.columns, spacing: 5) {
                         ForEach(0..<9) { i in
                             ZStack {
-                                GameSquareView(proxy: geomerty)
+                                GameSquareView(proxy: geomerty, i: i)
                                 PlayerIndicator(systemImageName: viewModel.moves[i]?.indicator ?? "")
                             }.onTapGesture {
                                 viewModel.mode = mode
